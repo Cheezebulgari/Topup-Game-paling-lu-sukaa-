@@ -1,0 +1,82 @@
+
+function checkout() {
+  const id = document.getElementById("player").value.trim();
+  const server = document.getElementById("server").value.trim();
+
+  if (!id) {
+    document.getElementById("result").textContent =
+      "Masukkan ID game contoh terlebih dahulu.";
+    return;
+  }
+
+  const paket = data[game][selected];
+
+  const pesanan = {
+    game: game,
+    paket: paket[0],
+    harga: paket[1],
+    id: id,
+    server: server,
+    waktu: new Date().toLocaleString("id-ID")
+  };
+
+  let riwayat = JSON.parse(
+    localStorage.getItem("riwayatDemo") || "[]"
+  );
+
+  riwayat.unshift(pesanan);
+
+  localStorage.setItem(
+    "riwayatDemo",
+    JSON.stringify(riwayat.slice(0, 20))
+  );
+
+  document.getElementById("result").textContent =
+    "Pesanan demo berhasil disimpan! Belum ada pembayaran.";
+
+  tampilkanRiwayat();
+}
+
+function tampilkanRiwayat() {
+  const riwayat = JSON.parse(
+    localStorage.getItem("riwayatDemo") || "[]"
+  );
+
+  const tempat = document.getElementById("history");
+
+  if (riwayat.length === 0) {
+    tempat.textContent = "Belum ada riwayat pesanan.";
+    return;
+  }
+
+  tempat.replaceChildren();
+
+  riwayat.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "panel";
+
+    const judul = document.createElement("strong");
+    judul.textContent = p.game + " — " + p.paket;
+
+    const detail = document.createElement("p");
+    detail.textContent =
+      "Harga demo: Rp" + p.harga.toLocaleString("id-ID") +
+      " | ID: " + p.id +
+      " | Waktu: " + p.waktu;
+
+    const status = document.createElement("p");
+    status.textContent = "Status: DEMO — Belum dibayar";
+
+    item.append(judul, detail, status);
+    tempat.appendChild(item);
+  });
+}
+
+function hapusRiwayat() {
+  if (confirm("Hapus semua riwayat demo di browser ini?")) {
+    localStorage.removeItem("riwayatDemo");
+    tampilkanRiwayat();
+  }
+}
+
+tampilkanRiwayat();
