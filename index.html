@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEON TOPUP | Game Store</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#080b18;color:#f4f5ff;
+  font-family:Arial,sans-serif
+}
+header{
+  padding:18px 5%;display:flex;justify-content:space-between;
+  align-items:center;background:#0d1124;
+  border-bottom:1px solid #25294a
+}
+.logo{font-size:22px;font-weight:bold;color:#00f5d4}
+header a{color:#ddd;text-decoration:none}
+main{max-width:1050px;margin:auto;padding:20px}
+.hero{
+  padding:35px 25px;border-radius:18px;
+  background:linear-gradient(120deg,#25115c,#102e65,#091222);
+  border:1px solid #4440a0;margin-bottom:28px
+}
+.hero h1{font-size:clamp(30px,6vw,48px);margin:8px 0}
+.hero p{color:#c7d2fe;line-height:1.6}
+.tag{color:#00f5d4;font-weight:bold}
+h2{font-size:20px}
+.games{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:10px;margin-bottom:28px
+}
+.game{
+  background:#111831;border:1px solid #29345b;
+  border-radius:12px;padding:16px 5px;color:white;
+  cursor:pointer;font-size:13px
+}
+.game span{display:block;font-size:26px;margin-bottom:8px}
+.game.active,.pack.active{
+  border:1px solid #bd5cff;
+  background:#25174c;box-shadow:0 0 12px #722cff44
+}
+.layout{
+  display:grid;grid-template-columns:1.5fr 1fr;gap:18px
+}
+.panel{
+  background:#0d1429;border:1px solid #29345b;
+  border-radius:14px;padding:18px;margin-bottom:18px
+}
+.packages{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px
+}
+.pack{
+  color:white;background:#151d38;border:1px solid #29345b;
+  padding:16px 6px;border-radius:10px;cursor:pointer
+}
+.pack strong,.pack small{display:block;margin:7px 0}
+.price{color:#00f5d4;font-weight:bold}
+label{display:block;margin:14px 0 6px;font-size:13px}
+input{
+  width:100%;padding:13px;border-radius:8px;
+  border:1px solid #303c60;background:#080e20;color:white
+}
+button.primary{
+  width:100%;padding:14px;border:0;border-radius:9px;
+  background:linear-gradient(90deg,#7c3cff,#c23dff);
+  color:white;font-weight:bold;cursor:pointer;margin-top:14px
+}
+.muted{color:#a6b0d0;font-size:13px;line-height:1.6}
+.row{display:flex;justify-content:space-between;gap:10px;margin:15px 0}
+hr{border:0;border-top:1px solid #29345b}
+footer{text-align:center;padding:25px;color:#9aa5c8;font-size:12px}
+@media(max-width:650px){
+  main{padding:14px}
+  .games{grid-template-columns:repeat(2,1fr)}
+  .layout{grid-template-columns:1fr}
+  header{padding:16px}
+  .hero{padding:25px 18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">♛ NEON TOPUP</div>
+  <a href="#game">Pilih Game ↓</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="tag">TOP UP GAME FAVORITMU</div>
+    <h1>LEVEL UP.<br>PLAY MORE.</h1>
+    <p>Tempat memilih paket game favoritmu.<br>
+    Cepat, praktis, dan mudah digunakan.</p>
+  </section>
+
+  <h2 id="game">🎮 Pilih Game</h2>
+  <div class="games">
+    <button class="game active" onclick="pilihGame(this,'Mobile Legends')">
+      <span>⚔️</span>Mobile Legends
+    </button>
+    <button class="game" onclick="pilihGame(this,'Free Fire')">
+      <span>🔥</span>Free Fire
+    </button>
+    <button class="game" onclick="pilihGame(this,'PUBG Mobile')">
+      <span>🎯</span>PUBG Mobile
+    </button>
+    <button class="game" onclick="pilihGame(this,'Roblox')">
+      <span>🧊</span>Roblox
+    </button>
+  </div>
+
+  <div class="layout">
+    <section>
+      <div class="panel">
+        <h2 id="judul">💎 Mobile Legends</h2>
+        <p class="muted">Pilih paket demo yang kamu inginkan.</p>
+        <div class="packages" id="packages"></div>
+      </div>
+
+      <div class="panel">
+        <h2>👤 Informasi Akun</h2>
+        <label for="player">ID Game</label>
+        <input id="player" placeholder="Masukkan ID game">
+        <label for="server">Server / Zone ID (jika diperlukan)</label>
+        <input id="server" placeholder="Masukkan server">
+        <p class="muted">Gunakan ID contoh saat mencoba demo ini.</p>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <h2>🧾 Ringkasan Pesanan</h2>
+      <div class="row"><span>Game</span><strong id="sumGame">Mobile Legends</strong></div>
+      <div class="row"><span>Paket</span><strong id="sumPack">86 Diamond</strong></div>
+      <hr>
+      <div class="row"><strong>Total demo</strong><strong class="price" id="sumPrice">Rp5.000</strong></div>
+      <button class="primary" onclick="checkout()">Lanjutkan →</button>
+      <p class="muted">⚠️ Ini hanya demo. Tidak ada pembayaran atau pengiriman item sungguhan.</p>
+      <div id="result" class="muted"></div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <strong>NEON TOPUP</strong>
+  <p>Temukan game favoritmu, mulai petualanganmu.</p>
+  Website demo buatan sendiri © 2026
+</footer>
+
+<script>
+const data = {
+  "Mobile Legends": [
+    ["86 Diamond",5000],["172 Diamond",10000],
+    ["257 Diamond",15000],["344 Diamond",20000]
+  ],
+  "Free Fire": [
+    ["50 Diamond",5000],["100 Diamond",10000],
+    ["200 Diamond",20000],["500 Diamond",50000]
+  ],
+  "PUBG Mobile": [
+    ["60 UC",10000],["120 UC",20000],
+    ["300 UC",50000],["600 UC",100000]
+  ],
+  "Roblox": [
+    ["80 Robux",15000],["160 Robux",30000],
+    ["400 Robux",70000],["800 Robux",140000]
+  ]
+};
+
+let game = "Mobile Legends";
+let selected = 0;
+
+function rupiah(n) {
+  return "Rp" + n.toLocaleString("id-ID");
+}
+
+function render() {
+  const packs = data[game];
+  if (selected >= packs.length) selected = 0;
+
+  document.getElementById("judul").textContent = "💎 " + game;
+  document.getElementById("sumGame").textContent = game;
+
+  document.getElementById("packages").innerHTML =
+    packs.map((p,i) => `
+      <button class="pack ${i===selected?'active':''}"
+        onclick="pilihPaket(${i})">
+        <strong>💎 ${p[0]}</strong>
+        <small class="price">${rupiah(p[1])}</small>
+      </button>
+    `).join("");
+
+  document.getElementById("sumPack").textContent = packs[selected][0];
+  document.getElementById("sumPrice").textContent = rupiah(packs[selected][1]);
+}
+
+function pilihGame(el,nama) {
+  game = nama;
+  selected = 0;
+  document.querySelectorAll(".game").forEach(
+    b => b.classList.remove("active")
+  );
+  el.classList.add("active");
+  document.getElementById("result").textContent = "";
+  render();
+}
+
+function pilihPaket(i) {
+  selected = i;
+  document.getElementById("result").textContent = "";
+  render();
+}
+
+function checkout() {
+  const id = document.getElementById("player").value.trim();
+  if (!id) {
+    document.getElementById("result").textContent =
+      "Masukkan ID game terlebih dahulu untuk mencoba demo.";
+    return;
+  }
+
+  document.getElementById("result").textContent =
+    "Demo berhasil! " + game + " — " +
+    data[game][selected][0] +
+    ". Belum ada transaksi sungguhan.";
+}
+
+render();
+</script>
+</body>
+</html>
