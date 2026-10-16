@@ -219,7 +219,18 @@ function pilihPaket(i) {
   render();
 }
 
-function checkout() {
+function checkout()let riwayat = JSON.parse(
+  localStorage.getItem("riwayatDemo") || "[]"
+);
+
+riwayat.unshift(pesanan);
+
+localStorage.setItem(
+  "riwayatDemo",
+  JSON.stringify(riwayat.slice(0, 20))
+);
+
+tampilkanRiwayat(); {
   const id = document.getElementById("player").value.trim();
   if (!id) {
     document.getElementById("result").textContent =
